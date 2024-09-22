@@ -1,0 +1,13 @@
+requests
+pandas
+matplotlib
+seaborn
+fpdf
+reportlab
+json5
+pyyaml
+pytest
+pytest-mock
+beautifulsoup4
+lxml
+sqlalchemy
