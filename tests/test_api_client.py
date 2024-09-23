@@ -12,13 +12,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# tests/test_api_client.py
 import pytest
 import requests
 from src.api_client import APIClient, APIError
 
 
-# tests/test_api_client.py
 def test_api_client_timeout(mocker):
     """
     Test API client handling of a timeout error.
