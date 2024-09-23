@@ -33,7 +33,9 @@ def fetch_threat_data():
         alien_vault_data = alien_vault.get_data("indicators/export")
         vt_data = vt.get_data("files", params={"limit": 10})
 
-        return alien_vault_data + vt_data
+        # Filter out malformed data
+        valid_data = [entry for entry in alien_vault_data + vt_data if 'id' in entry]
+        return valid_data
     except APIError as e:
         log_error(f"Failed to fetch threat data: {e}")
-        return []
+        return []  # Return an empty list on failure

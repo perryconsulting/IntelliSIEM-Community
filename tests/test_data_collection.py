@@ -11,7 +11,9 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+# tests/test_data_collection.py
 
+import pytest
 from src.data_collection import fetch_threat_data, APIError
 
 
@@ -34,3 +36,21 @@ def test_fetch_threat_data_failure(mocker):
     # Expect the APIError exception to be raised and handle it in the function
     threats = fetch_threat_data()
     assert threats == []  # Expecting an empty list as a fallback
+
+
+def test_fetch_threat_data_empty_response(mocker):
+    """
+    Test fetching threat data with an empty response.
+    """
+    mocker.patch('src.api_client.APIClient.get_data', return_value=[])
+    threats = fetch_threat_data()
+    assert len(threats) == 0  # Expecting empty list when no data is returned
+
+
+def test_fetch_threat_data_corrupt_data(mocker):
+    """
+    Test fetching threat data with corrupt response data.
+    """
+    mocker.patch('src.api_client.APIClient.get_data', return_value=[{'malformed': 'data'}])
+    threats = fetch_threat_data()
+    assert threats == []  # Expecting empty list on data parsing failure
