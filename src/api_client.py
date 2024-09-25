@@ -45,16 +45,25 @@ class APIClient:
             response = requests.get(url, headers=self.headers, params=params, timeout=10)
             if response.status_code == 429:
                 retry_after = response.headers.get("Retry-After", "unknown time")
-                log_error(f"Rate limit exceeded. Retry after: {retry_after}")
+                log_error(f"Rate limit exceeded. Retry after: {retry_after}.")
                 raise APIError("Rate limit exceeded.")
+            if response.status_code == 401:
+                log_error("Authentication failed: Invalid API key.")
+                raise APIError("Authentication failed.")
+            if response.status_code == 403:
+                log_error("Permission denied: Access to resource is forbidden.")
+                raise APIError("Permission denied.")
             response.raise_for_status()
             return response.json()
         except requests.exceptions.Timeout:
-            log_error("API request timed out")
-            raise APIError("API request timed out")
+            log_error("API request timed out.")
+            raise APIError("API request timed out.")
+        except requests.exceptions.ConnectionError:
+            log_error("Connection error occurred.")
+            raise APIError("Connection error occurred.")
         except requests.exceptions.RequestException as e:
-            log_error(f"API request failed: {e}")
-            raise APIError(f"API request failed: {e}")
+            log_error(f"API request failed: {e}.")
+            raise APIError(f"API request failed: {e}.")
         except ValueError:
-            log_error("Invalid JSON response format from API")
-            raise APIError("Invalid response format.")  # New error for invalid JSON responses
+            log_error("Invalid JSON response format from API.")
+            raise APIError("Invalid response format.")
