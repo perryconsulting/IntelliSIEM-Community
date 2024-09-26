@@ -13,21 +13,42 @@
 #  limitations under the License.
 
 import logging
+from logging.handlers import RotatingFileHandler
 
-logging.basicConfig(level=logging.ERROR, filename='data/error.log', format='%(asctime)s %(levelname)s: %(message)s')
+# Set up rotating file handler
+handler = RotatingFileHandler('data/error.log', maxBytes=1000000, backupCount=5)
+handler.setLevel(logging.ERROR)
+handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s'))
+
+# Add the handler to the root logger
+logging.basicConfig(level=logging.ERROR, handlers=[handler])
 
 
 class APIError(Exception):
-    """
-    Custom exception for API errors.
-    """
+    """Custom exception for API-related errors."""
     pass
 
 
-def log_error(message):
+class ConfigError(Exception):
+    """Custom exception for configuration-related errors."""
+    pass
+
+
+class DataError(Exception):
+    """Custom exception for data processing errors."""
+    pass
+
+
+def log_error(message, level="ERROR"):
     """
-    Log error messages to a file.
+    Log error messages to a file with severity level.
 
     :param message: (str) The error message to log.
+    :param level: (str) The severity level (default is "ERROR").
     """
-    logging.error(message)
+    if level == "WARNING":
+        logging.warning(message)
+    elif level == "INFO":
+        logging.info(message)
+    else:
+        logging.error(message)

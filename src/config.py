@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 import yaml
-from src.error_handling import log_error, APIError
+from src.error_handling import log_error, ConfigError
 
 
 def load_config(config_file='config/config.yaml'):
@@ -22,15 +22,20 @@ def load_config(config_file='config/config.yaml'):
 
     :param config_file: (str) The path to the YAML configuration file.
     :return: dict: Configuration data.
-    :raises APIError: If there is an error with the configuration file.
+    :raises ConfigError: If there is an error with the configuration file.
     """
-
     try:
         with open(config_file, 'r') as file:
             return yaml.safe_load(file)
     except yaml.YAMLError as e:
-        log_error(f"YAML parsing error while loading configuration: {e}")
-        raise APIError(f"Configuration file error: {e}")
+        log_error(f"YAML parsing error while loading configuration: {e}.")
+        raise ConfigError(f"Configuration file error: {e}.")
     except FileNotFoundError:
-        log_error(f"Configuration file not found: {config_file}")
-        raise FileNotFoundError(f"Configuration file not found: {config_file}")
+        log_error(f"Configuration file not found: {config_file}.")
+        raise FileNotFoundError(f"Configuration file not found: {config_file}.")
+    except PermissionError:
+        log_error(f"Permission denied for config file: {config_file}.")
+        raise ConfigError("Permission denied for config file.")
+    except OSError as e:
+        log_error(f"Disk space issue while loading configuration: {e}.")
+        raise ConfigError("Disk space issue while loading configuration.")
