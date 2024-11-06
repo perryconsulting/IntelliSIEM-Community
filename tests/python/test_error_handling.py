@@ -12,9 +12,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-import pytest
-from src.error_handling import APIError, ConfigError, DataError, log_error
 import logging
+
+import pytest
+
+from src.python.error_handling import APIError, ConfigError, DataError, log_error
 
 
 def test_api_error():

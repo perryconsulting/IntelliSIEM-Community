@@ -13,7 +13,8 @@
 #  limitations under the License.
 
 import yaml
-from src.error_handling import log_error, ConfigError
+
+from src.python.error_handling import log_error, ConfigError
 
 
 def load_config(config_file='config/config.yaml'):

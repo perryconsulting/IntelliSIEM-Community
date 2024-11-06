@@ -14,7 +14,8 @@
 # tests/test_data_collection.py
 
 import pytest
-from src.data_collection import fetch_threat_data, DataError
+
+from src.python.data_collection import fetch_threat_data, DataError
 
 
 def test_fetch_threat_data_success(mocker):

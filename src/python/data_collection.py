@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from src.api_client import APIClient
-from src.error_handling import APIError, DataError, log_error
-from src.config import load_config
+from src.python.api_client import APIClient
+from src.python.config import load_config
+from src.python.error_handling import APIError, DataError, log_error
 
 config = load_config()
 

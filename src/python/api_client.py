@@ -13,7 +13,8 @@
 #  limitations under the License.
 
 import requests
-from src.error_handling import APIError, log_error
+
+from src.python.error_handling import APIError, log_error
 
 
 class APIClient:

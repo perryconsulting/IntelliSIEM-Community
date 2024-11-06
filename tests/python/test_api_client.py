@@ -14,7 +14,8 @@
 
 import pytest
 import requests
-from src.api_client import APIClient, APIError
+
+from src.python.api_client import APIClient, APIError
 
 
 def test_api_client_success(mocker):

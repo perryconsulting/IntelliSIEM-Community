@@ -13,7 +13,8 @@
 #  limitations under the License.
 
 import pytest
-from src.config import load_config, ConfigError
+
+from src.python.config import load_config, ConfigError
 
 
 def test_load_config_success(mocker):
